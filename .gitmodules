@@ -1,0 +1,6 @@
+[submodule "mykanban"]
+	path = mykanban
+	url = https://github.com/KustelR/mykanban.git
+[submodule "mykanban-api"]
+	path = mykanban-api
+	url = https://github.com/KustelR/mykanban-api.git
