@@ -45,7 +45,7 @@ DELIMITER $$
 
 CREATE PROCEDURE add_card(p_column_id CHAR(30), p_id CHAR(30), p_name CHAR(20), p_description TEXT, p_draw_order INT)
 BEGIN
-    INSERT cards (
+    INSERT Cards (
         id,
         column_id,
         name,
