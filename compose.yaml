@@ -6,14 +6,17 @@ services:
     environment:
       - NEXT_PUBLIC_PROJECT_HOST=localhost:${API_PORT}
     ports: 
-      - 3000:3000
+      - ${APP_PORT}:3000
     networks:
       default:
         ipv4_address: 10.5.0.8
   mysql:
-    image: "mysql:latest"
+    build:
+      context: ./
+      dockerfile: Dockerfile.mysql
     environment:
      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+     - MYSQL_DATABASE=Projects
    # - MYSQL_ALLOW_EMPTY_PASSWORD=True
     ports: 
       - 3306:3306
