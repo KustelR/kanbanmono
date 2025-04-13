@@ -1,41 +1,43 @@
 
-create table Projects (
-    id varchar(30) not null,
-    name varchar(20) not null,
-    primary key (id)
+CREATE TABLE PROJECTS (
+    id varchar(30) NOT NULL,
+    name varchar(20) NOT NULL,
+    created_by VARCHAR(30) NOT NULL,
+    updated_by VARCHAR(30) NOT NULL,
+    PRIMARY KEY (id)
 );
-create table Columns (
-    id varchar(30) not null,
-    project_id varchar(30) not null,
-    name varchar(20) not null,
-    draw_order int unsigned not null,
-    primary key (id),
-    foreign key (project_id) references Projects (id) ON DELETE CASCADE
+CREATE TABLE Columns (
+    id VARCHAR(30) NOT NULL,
+    project_id VARCHAR(30) NOT NULL,
+    name varchar(20) NOT NULL,
+    draw_order INT UNSIGNED NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (project_id) REFERENCES Projects (id) ON DELETE CASCADE
 );
-create table Cards (
-    id varchar(30) not null,
-    column_id varchar(30) not null,
-    name varchar(20) not null,
-    description text not null,
-    draw_order int unsigned not null,
-    primary key (id),
-    foreign key (column_id) references Columns (id) ON DELETE CASCADE
+CREATE TABLE Cards (
+    id VARCHAR(30) not null,
+    column_id VARCHAR(30) not null,
+    name VARCHAR(20) not null,
+    description TEXT not null,
+    draw_order INT UNSIGNED NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (column_id) REFERENCES Columns (id) ON DELETE CASCADE
 );
 CREATE TABLE Tags (
-    id varchar(30) not null,
-    project_id varchar(30) not null,
-    name varchar(20) not null,
-    color varchar(7) not null,
-    primary key (id),
-    foreign key (project_id) references Projects (id) ON DELETE CASCADE
+    id VARCHAR(30) not null,
+    project_id VARCHAR(30) not null,
+    name VARCHAR(20) not null,
+    color VARCHAR(7) not null,
+    PRIMARY KEY (id),
+    FOREIGN KEY (project_id) REFERENCES Projects (id) ON DELETE CASCADE
 );
-create table CardsTags (
-    id int unsigned not null auto_increment,
-    card_id varchar(30) not null,
-    tag_id varchar(30) not null,
-    primary key (id),
-    foreign key (card_id) references Cards (id) ON DELETE CASCADE,
-    foreign key (tag_id) references Tags (id) ON DELETE CASCADE
+CREATE TABLE CardsTags (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    card_id VARCHAR(30) NOT NULL,
+    tag_id VARCHAR(30) NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (card_id) REFERENCES Cards (id) ON DELETE CASCADE,
+    FOREIGN KEY (tag_id) REFERENCES Tags (id) ON DELETE CASCADE
 );
 
 
@@ -43,7 +45,12 @@ create table CardsTags (
 DELIMITER $$
 
 
-CREATE PROCEDURE add_card(p_column_id CHAR(30), p_id CHAR(30), p_name CHAR(20), p_description TEXT, p_draw_order INT)
+CREATE PROCEDURE add_card(
+    p_column_id CHAR(30), 
+    p_id CHAR(30), 
+    p_name CHAR(20), 
+    p_description TEXT, 
+    p_draw_order INT)
 BEGIN
     INSERT Cards (
         id,
@@ -70,7 +77,11 @@ BEGIN
 DELIMITER $$
 
 
-CREATE PROCEDURE add_column(p_project_id char(30), p_id char(30), p_name char(20), p_draw_order INT)
+CREATE PROCEDURE add_column(
+    p_project_id char(30), 
+    p_id char(30), 
+    p_name char(20), 
+    p_draw_order INT)
 BEGIN
     INSERT Columns (
         id,
@@ -95,7 +106,9 @@ DELIMITER ;
 DELIMITER $$
 
 
-CREATE PROCEDURE pop_card_reorder(p_column_id CHAR(30), p_popped_order INT)
+CREATE PROCEDURE pop_card_reorder(
+    p_column_id CHAR(30), 
+    p_popped_order INT)
 BEGIN
     UPDATE Cards 
     SET 
@@ -109,7 +122,9 @@ DELIMITER ;
 DELIMITER $$
 
 
-CREATE PROCEDURE pop_column_reorder(p_project_id CHAR(30), p_popped_order INT)
+CREATE PROCEDURE pop_column_reorder(
+    p_project_id CHAR(30), 
+    p_popped_order INT)
 BEGIN
     UPDATE Columns 
     SET 
@@ -123,7 +138,12 @@ DELIMITER ;
 DELIMITER $$
 
 
-CREATE PROCEDURE update_card(p_id CHAR(30), p_column_id CHAR(30), p_name CHAR(20), p_description TEXT, p_draw_order INT)
+CREATE PROCEDURE update_card(
+    p_id CHAR(30), 
+    p_column_id CHAR(30), 
+    p_name CHAR(20), 
+    p_description TEXT, 
+    p_draw_order INT)
 BEGIN
     UPDATE Cards 
     SET 
@@ -141,7 +161,10 @@ DELIMITER ;
 DELIMITER $$
 
 
-CREATE PROCEDURE update_column_data(p_id CHAR(30), p_name CHAR(20), p_draw_order INT)
+CREATE PROCEDURE update_column_data(
+    p_id CHAR(30), 
+    p_name CHAR(20), 
+    p_draw_order INT)
 BEGIN
     UPDATE Columns 
     SET 
@@ -157,7 +180,9 @@ DELIMITER ;
 DELIMITER $$
 
 
-CREATE PROCEDURE update_project_data(p_id CHAR(30), p_name CHAR(20))
+CREATE PROCEDURE update_project_data(
+    p_id CHAR(30), 
+    p_name CHAR(20))
 BEGIN
     UPDATE Projects 
     SET 
