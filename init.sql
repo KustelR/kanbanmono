@@ -74,7 +74,39 @@ CREATE TABLE CardsTags (
 DELIMITER $$
 
 
-CREATE PROCEDURE add_card(
+CREATE PROCEDURE create_project(
+    p_id CHAR(50), 
+    p_name CHAR(50),
+    p_created_by CHAR(50))
+BEGIN
+    INSERT INTO Projects (id, name, created_by, updated_by)
+    VALUES (
+        p_id,
+        p_name,
+        p_created_by,
+        p_created_by
+    ); 
+END$$
+
+
+CREATE PROCEDURE create_tag(
+    p_project_id CHAR(50), 
+    p_id CHAR(50), 
+    p_name CHAR(50),
+    p_color CHAR(7),
+    p_created_by CHAR(50))
+BEGIN
+    INSERT INTO Tags (project_id, id, name, color, created_by, updated_by)
+    VALUES (
+        p_project_id,
+        p_id,
+        p_name,
+        p_color,
+        p_created_by,
+        p_created_by
+    ); 
+END$$
+
     p_column_id CHAR(50), 
     p_id CHAR(50), 
     p_name CHAR(50), 
