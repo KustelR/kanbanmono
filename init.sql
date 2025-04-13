@@ -60,11 +60,7 @@ CREATE TABLE CardsTags (
     card_id VARCHAR(50) NOT NULL,
     tag_id VARCHAR(50) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by VARCHAR(50) not null,
-    updated_by VARCHAR(50) not null,
     PRIMARY KEY (id),
-    UNIQUE (card_id, tag_id),
     FOREIGN KEY (card_id) REFERENCES Cards (id) ON DELETE CASCADE,
     FOREIGN KEY (tag_id) REFERENCES Tags (id) ON DELETE CASCADE
 );
