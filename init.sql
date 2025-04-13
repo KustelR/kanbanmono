@@ -242,4 +242,78 @@ BEGIN
 END$$
 
 
+CREATE PROCEDURE read_columns_by_project_id(
+    p_id CHAR(50)
+    )
+BEGIN
+    SELECT 
+        id,
+        project_id,
+        draw_order,
+        name, 
+        UNIX_TIMESTAMP(created_at) as 'created_at', 
+        UNIX_TIMESTAMP(updated_at) as 'updated_at',
+        created_by,
+        updated_by
+    FROM ProjectColumns
+    WHERE project_id = p_id; 
+END$$
+
+
+CREATE PROCEDURE read_tags_by_project_id(
+    p_project_id CHAR(50)
+    )
+BEGIN
+    SELECT 
+        id,
+        project_id,
+        name, 
+        color,
+        UNIX_TIMESTAMP(created_at) AS 'created_at', 
+        UNIX_TIMESTAMP(updated_at) AS 'updated_at',
+        created_by,
+        updated_by
+    FROM Tags
+    WHERE project_id = p_project_id; 
+END$$
+
+
+CREATE PROCEDURE read_tags_by_card_id(
+    p_card_id CHAR(50)
+    )
+BEGIN
+    SELECT 
+        t.id,
+        t.project_id,
+        t.name, 
+        t.color,
+        UNIX_TIMESTAMP(t.created_at) AS 'created_at', 
+        UNIX_TIMESTAMP(t.updated_at) AS 'updated_at',
+        t.created_by,
+        t.updated_by
+    FROM Tags AS t 
+    INNER JOIN CardsTags as ct
+    ON ct.tag_id =t.id
+    WHERE ct.card_id = p_card_id; 
+END$$
+
+
+CREATE PROCEDURE read_cards_by_column_id(
+    p_column_id CHAR(50)
+    )
+BEGIN
+    SELECT 
+        id, 
+        column_id,
+        name,
+        description, 
+        UNIX_TIMESTAMP(created_at) as 'created_at', 
+        UNIX_TIMESTAMP(updated_at) as 'updated_at',
+        created_by,
+        updated_by
+    FROM Cards 
+    WHERE column_id = p_column_id; 
+END$$
+
+
 DELIMITER ;
