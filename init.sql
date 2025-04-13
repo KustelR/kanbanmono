@@ -214,4 +214,21 @@ BEGIN
     WHERE id = p_id;
 END$$
 
+
+CREATE PROCEDURE read_project(
+    p_id CHAR(50)
+    )
+BEGIN
+    SELECT 
+        id, 
+        name, 
+        UNIX_TIMESTAMP(created_at) as 'created_at', 
+        UNIX_TIMESTAMP(updated_at) as 'updated_at',
+        created_by,
+        updated_by
+    FROM Projects 
+    WHERE id = p_id; 
+END$$
+
+
 DELIMITER ;
