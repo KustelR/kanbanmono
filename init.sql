@@ -3,12 +3,12 @@
     File: init.sql
     Purpose: This script initializes the database schema for a Kanban management application.
     Structure:
-      - Tables: PROJECTS, ProjectColumns, Cards, Tags, CardsTags
+      - Tables: Projects, ProjectColumns, Cards, Tags, CardsTags
       - Procedures: add_card, add_column, pop_card_reorder, pop_column_reorder, update_card, update_column_data, update_project_data
     Usage: Run this script to set up the database schema and stored procedures.
 */
 
-CREATE TABLE PROJECTS (
+CREATE TABLE Projects (
     id varchar(50) NOT NULL,
     name varchar(50) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -54,6 +54,7 @@ CREATE TABLE Tags (
     PRIMARY KEY (id),
     FOREIGN KEY (project_id) REFERENCES Projects (id) ON DELETE CASCADE,
     UNIQUE (project_id, name)
+);
 CREATE TABLE CardsTags (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     card_id VARCHAR(50) NOT NULL,
@@ -66,7 +67,6 @@ CREATE TABLE CardsTags (
     UNIQUE (card_id, tag_id),
     FOREIGN KEY (card_id) REFERENCES Cards (id) ON DELETE CASCADE,
     FOREIGN KEY (tag_id) REFERENCES Tags (id) ON DELETE CASCADE
-);
 );
 
 
@@ -107,12 +107,14 @@ BEGIN
     ); 
 END$$
 
+
+CREATE PROCEDURE create_card(
     p_column_id CHAR(50), 
     p_id CHAR(50), 
     p_name CHAR(50), 
     p_description TEXT, 
-    p_created_by CHAR(50), 
-    p_draw_order INT)
+    p_draw_order INT,
+    p_created_by CHAR(50))
 BEGIN
     INSERT Cards (
         id,
@@ -120,47 +122,43 @@ BEGIN
         name,
         description,
         draw_order,
-        created_by
+        created_by,
+        updated_by
     ) VALUES (
         p_id,
         p_column_id,
         p_name,
         p_description,
         p_draw_order,
+        p_created_by,
         p_created_by
-    )
- END$$
+    );
+END$$
 
 
-DELIMITER ;
-DELIMITER $$
-
-
-CREATE PROCEDURE add_column(
+CREATE PROCEDURE create_column(
     p_project_id char(50), 
     p_id char(50), 
     p_name char(50),
-    p_created_by CHAR(50),
-    p_draw_order INT)
+    p_draw_order INT,
+    p_created_by CHAR(50))
 BEGIN
     INSERT ProjectColumns (
         id,
         project_id,
         name,
         created_by,
+        updated_by,
         draw_order
     ) VALUES (
         p_id, 
         p_project_id, 
         p_name,
         p_created_by,
+        p_created_by,
         p_draw_order
     );
 END$$
-
-
-DELIMITER ;
-DELIMITER $$
 
 
 CREATE PROCEDURE pop_card_reorder(
@@ -173,11 +171,6 @@ BEGIN
     WHERE draw_order > p_popped_order AND column_id = p_column_id;
 END$$
 
-DELIMITER ;
-
-
-DELIMITER $$
-
 
 CREATE PROCEDURE pop_column_reorder(
     p_project_id CHAR(50), 
@@ -188,9 +181,6 @@ BEGIN
     draw_order = draw_order - 1
     WHERE draw_order > p_popped_order AND project_id = p_project_id;
 END$$
-
-DELIMITER ;
-DELIMITER $$
 
 
 CREATE PROCEDURE update_card(
@@ -211,9 +201,6 @@ BEGIN
     WHERE id = p_id;
 END$$
 
-DELIMITER ;
-DELIMITER $$
-
 
 CREATE PROCEDURE update_column_data(
     p_id CHAR(50), 
@@ -228,10 +215,6 @@ BEGIN
     updated_by = p_updated_by
     WHERE id = p_id;
 END$$
-
-
-DELIMITER ;
-DELIMITER $$
 
 
 CREATE PROCEDURE update_project_data(
