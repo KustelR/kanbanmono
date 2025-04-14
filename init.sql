@@ -204,7 +204,7 @@ CREATE PROCEDURE update_column_data(
     p_updated_by CHAR(50),
     p_draw_order INT)
 BEGIN
-    UPDATE Columns 
+    UPDATE ProjectColumns 
     SET 
     name = p_name,
     draw_order = p_draw_order,
@@ -306,7 +306,8 @@ BEGIN
         id, 
         column_id,
         name,
-        description, 
+        description,
+        draw_order,
         UNIX_TIMESTAMP(created_at) as 'created_at', 
         UNIX_TIMESTAMP(updated_at) as 'updated_at',
         created_by,
