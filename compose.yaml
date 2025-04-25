@@ -29,6 +29,7 @@ services:
     profiles:
       - "" 
       - backend
+      - db
   api:
     build: 
       context: ./mykanban-api
