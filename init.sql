@@ -260,6 +260,24 @@ BEGIN
 END$$
 
 
+CREATE PROCEDURE read_column_by_id(
+    p_id CHAR(50)
+    )
+BEGIN
+    SELECT 
+        id,
+        project_id,
+        draw_order,
+        name, 
+        UNIX_TIMESTAMP(created_at) as 'created_at', 
+        UNIX_TIMESTAMP(updated_at) as 'updated_at',
+        created_by,
+        updated_by
+    FROM ProjectColumns
+    WHERE id = p_id; 
+END$$
+
+
 CREATE PROCEDURE read_tags_by_project_id(
     p_project_id CHAR(50)
     )
