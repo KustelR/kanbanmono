@@ -335,4 +335,22 @@ BEGIN
 END$$
 
 
+CREATE PROCEDURE read_card_by_id(
+    p_id CHAR(50)
+    )
+BEGIN
+    SELECT 
+        id, 
+        column_id,
+        name,
+        description,
+        draw_order,
+        UNIX_TIMESTAMP(created_at) as 'created_at', 
+        UNIX_TIMESTAMP(updated_at) as 'updated_at',
+        created_by,
+        updated_by
+    FROM Cards 
+    WHERE id = p_id; 
+END$$
+
 DELIMITER ;
