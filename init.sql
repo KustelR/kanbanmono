@@ -66,6 +66,17 @@ CREATE TABLE CardsTags (
 );
 
 
+CREATE TABLE CardUpdateRecords (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    card_id VARCHAR(50) NOT NULL,
+    added TEXT NOT NULL,
+    deleted TEXT NOT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (card_id) REFERENCES Cards (id) ON DELETE CASCADE 
+);
+
+
 /* Procedures */
 DELIMITER $$
 
@@ -351,6 +362,25 @@ BEGIN
         updated_by
     FROM Cards 
     WHERE id = p_id; 
+END$$
+
+
+CREATE PROCEDURE create_card_update_record(
+    p_card_id CHAR(50),
+    p_added TEXT,
+    p_deleted TEXT
+)
+BEGIN
+    INSERT INTO CardUpdateRecords (
+        card_id,
+        added,
+        deleted
+    )
+    VALUES (
+        p_card_id,
+        p_added,
+        p_deleted
+    );
 END$$
 
 DELIMITER ;
