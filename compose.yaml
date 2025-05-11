@@ -15,8 +15,8 @@ services:
       - web
   mysql:
     build:
-      context: ./
-      dockerfile: Dockerfile.mysql
+      context: ./mykanban-db
+      dockerfile: Dockerfile
     environment:
      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
      - MYSQL_DATABASE=Projects
