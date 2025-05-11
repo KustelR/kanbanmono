@@ -383,4 +383,16 @@ BEGIN
     );
 END$$
 
+CREATE PROCEDURE read_card_updates_by_id(p_id CHAR(50))
+BEGIN
+    SELECT
+        card_id as 'id',
+        added,
+        deleted,
+        UNIX_TIMESTAMP(updated_at) as 'updated_at'
+    FROM CardUpdateRecords
+    WHERE card_id = p_id;
+
+END$$
+
 DELIMITER ;
